@@ -1,0 +1,16 @@
+{
+    "name": "chekonline/chekonline-sdk-php",
+    "description": "Chekonline",
+    "version": "0.0.1",
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*"
+    },
+	"autoload": {
+        "psr-4": {
+            "Chekonline\\Cashbox\\": "src"
+        }
+    } 
+}
