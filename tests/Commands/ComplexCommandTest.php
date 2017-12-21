@@ -15,13 +15,13 @@ class ComplexCommandTest extends \PHPUnit_Framework_TestCase
         $command = new ComplexCommand('test');
 
         foreach ($lines as $line) {
-            $starrysLine = new Line();
-            $starrysLine->setSubTotal($line['subTotal'])
+            $line = new Line();
+            $line->setSubTotal($line['subTotal'])
                 ->setDescription('test')
                 ->setTaxId(1)
                 ->setPayAttribute(1)
                 ->setQty($line['qty']);
-            $command->addLine($starrysLine);
+            $command->addLine($line);
         }
         $command->normalizeByQty($amount);
 
@@ -46,14 +46,14 @@ class ComplexCommandTest extends \PHPUnit_Framework_TestCase
             if (isset($line['shipping']) === true) {
                 $isShipping = $line['shipping'];
             }
-            $starrysLine = new Line($isShipping);
+            $line = new Line($isShipping);
 
-            $starrysLine->setSubTotal($line['subTotal'])
+            $line->setSubTotal($line['subTotal'])
                 ->setDescription('test')
                 ->setTaxId(1)
                 ->setPayAttribute(1)
                 ->setQty($line['qty']);
-            $command->addLine($starrysLine);
+            $command->addLine($line);
         }
         $command->normalizeBySubTotal($amount, $withShipping);
 

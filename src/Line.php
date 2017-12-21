@@ -50,7 +50,6 @@ class Line
         $this->setSipping($isShipping);
     }
 
-
     /**
 	 * @return array
 	 */
@@ -149,7 +148,6 @@ class Line
 		$this->TaxId = $taxId;
 		return $this;
 	}
-
 
     /**
      * @param int|null $SubTotal
