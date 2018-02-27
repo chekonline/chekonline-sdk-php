@@ -308,10 +308,6 @@ class ComplexCommand extends BaseCommand
         if (isset($this->TaxMode) == false) {
             throw new ChekonlineCommandException('The tax mod must be determined', $this);
         }
-        if ($this->PhoneOrEmail == '') {
-            throw new ChekonlineCommandException('The contact (PhoneOrEmail) must be determined', $this);
-        }
-
     }
 
     /**

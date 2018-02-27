@@ -86,18 +86,22 @@ class Api
 		if (file_exists($cert)) {
 			$this->certPath = $cert;
 		} else {
-			$tempFileName = tempnam(sys_get_temp_dir(), 'php');
-			$tempFile = fopen($tempFileName, 'r+');
-			fwrite($tempFile,$cert);
-			$this->certPath = $tempFileName;
+            if (empty($cert) == false) {
+                $tempFileName = tempnam(sys_get_temp_dir(), 'php');
+                $tempFile     = fopen($tempFileName, 'r+');
+                fwrite($tempFile, $cert);
+                $this->certPath = $tempFileName;
+            }
 		}
 		if (file_exists($key)) {
 			$this->keyPath = $key;
 		} else {
-			$tempFileName = tempnam(sys_get_temp_dir(), 'php');
-			$tempFile = fopen($tempFileName, 'r+');
-			fwrite($tempFile,$key);
-			$this->keyPath = $tempFileName;
+            if (empty($key) == false) {
+                $tempFileName = tempnam(sys_get_temp_dir(), 'php');
+                $tempFile     = fopen($tempFileName, 'r+');
+                fwrite($tempFile, $key);
+                $this->keyPath = $tempFileName;
+            }
 		}
 		$this->certPassword = $certPassword;
 	}
@@ -206,12 +210,6 @@ class Api
     {
         if (filter_var($this->host, FILTER_VALIDATE_URL) == false) {
             throw new ChekonlineSDKException("Invalid host {$this->host}");
-        }
-        if (isset($this->certPath) == false || empty($this->certPath) == true) {
-            throw new ChekonlineSDKException("The cert must be determined");
-        }
-        if (isset($this->keyPath) == false || empty($this->keyPath) == true) {
-            throw new ChekonlineSDKException("The key must be determined");
         }
     }
 }
