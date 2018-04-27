@@ -70,6 +70,7 @@ class ComplexCommand extends BaseCommand
 
     /**
      * ComplexCommand constructor.
+     *
      * @param $requestId
      */
     public function __construct($requestId)
@@ -83,7 +84,7 @@ class ComplexCommand extends BaseCommand
     public function getParams()
     {
         $baseParams = parent::getParams();
-        $params = array_merge(get_object_vars($this), $baseParams);
+        $params     = array_merge(get_object_vars($this), $baseParams);
 
         /** @var Line $line */
         foreach ($this->Lines as $line) {
@@ -104,11 +105,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param int $cash
+     *
      * @return $this
      */
     public function setCash($cash)
     {
         $this->Cash = $cash;
+
         return $this;
     }
 
@@ -122,11 +125,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param array $nonCash
+     *
      * @return $this
      */
     public function setNonCash($nonCash)
     {
         $this->NonCash = $nonCash;
+
         return $this;
     }
 
@@ -140,11 +145,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param int $taxMode
+     *
      * @return $this
      */
     public function setTaxMode($taxMode)
     {
         $this->TaxMode = $taxMode;
+
         return $this;
     }
 
@@ -158,11 +165,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param string $contact
+     *
      * @return $this
      */
     public function setPhoneOrEmail($contact)
     {
         $this->PhoneOrEmail = $contact;
+
         return $this;
     }
 
@@ -184,11 +193,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param int $MaxDocumentsInTurn
-     * @return ComplexCommand
+     *
+     * @return $this
      */
     public function setMaxDocumentsInTurn($MaxDocumentsInTurn)
     {
         $this->MaxDocumentsInTurn = $MaxDocumentsInTurn;
+
         return $this;
     }
 
@@ -202,11 +213,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param mixed $DocumentType
-     * @return ComplexCommand
+     *
+     * @return $this
      */
     public function setDocumentType($DocumentType)
     {
         $this->DocumentType = $DocumentType;
+
         return $this;
     }
 
@@ -220,11 +233,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param string $Device
-     * @return ComplexCommand
+     *
+     * @return $this
      */
     public function setDevice($Device)
     {
         $this->Device = $Device;
+
         return $this;
     }
 
@@ -238,11 +253,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param int $Password
-     * @return ComplexCommand
+     *
+     * @return $this
      */
     public function setPassword($Password)
     {
         $this->Password = $Password;
+
         return $this;
     }
 
@@ -256,11 +273,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param string $Group
-     * @return ComplexCommand
+     *
+     * @return $this
      */
     public function setGroup($Group)
     {
         $this->Group = $Group;
+
         return $this;
     }
 
@@ -274,11 +293,13 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param bool $FullResponse
-     * @return ComplexCommand
+     *
+     * @return $this
      */
     public function setFullResponse($FullResponse)
     {
         $this->FullResponse = $FullResponse;
+
         return $this;
     }
 
@@ -312,6 +333,7 @@ class ComplexCommand extends BaseCommand
 
     /**
      * @param bool $withShipping
+     *
      * @return int
      */
     public function getAmount($withShipping = false)
@@ -353,12 +375,14 @@ class ComplexCommand extends BaseCommand
         foreach ($this->Lines as $line) {
             $qty = $qty + $line->getQty();
         }
+
         return $qty;
     }
 
     /**
      * @param int $amount
      * @param bool $withShipping
+     *
      * @return $this
      */
     public function normalizeByQty($amount, $withShipping = false)
@@ -368,19 +392,19 @@ class ComplexCommand extends BaseCommand
             $amount = $amount - $this->getSippingAmount();
         }
         if ($amount != $realAmount) {
-            $qty = $this->getQty();
-            $adjustment = $amount - $realAmount;
-            $coef = $adjustment / $qty;
-            $realAmount = 0;
+            $qty                = $this->getQty();
+            $adjustment         = $amount - $realAmount;
+            $coef               = $adjustment / $qty;
+            $realAmount         = 0;
             $indexForAdjustment = 0;
-            $maxSubTotal = 0;
+            $maxSubTotal        = 0;
 
             foreach ($this->Lines as $index => $line) {
                 if ($line->isShipping() === true && $withShipping === false) {
                     continue;
                 }
-                $subTotal = $line->getSubTotal();
-                $lineQty = $line->getQty();
+                $subTotal    = $line->getSubTotal();
+                $lineQty     = $line->getQty();
                 $newSubTotal = $subTotal + $lineQty * $coef;
                 $newSubTotal = round($newSubTotal, 0, PHP_ROUND_HALF_DOWN);
                 if ($newSubTotal <= 0) {
@@ -390,7 +414,7 @@ class ComplexCommand extends BaseCommand
                 $line->setSubTotal($newSubTotal);
                 $realAmount = $realAmount + $newSubTotal;
                 if ($line->getSubTotal() > $maxSubTotal) {
-                    $maxSubTotal = $line->getSubTotal();
+                    $maxSubTotal        = $line->getSubTotal();
                     $indexForAdjustment = $index;
                 }
             }
@@ -398,12 +422,13 @@ class ComplexCommand extends BaseCommand
             $diff = $amount - $realAmount;
 
             if ($diff != 0) {
-                $line = $this->Lines[$indexForAdjustment];
-                $subTotal = $line->getSubTotal();
+                $line        = $this->Lines[$indexForAdjustment];
+                $subTotal    = $line->getSubTotal();
                 $newSubTotal = $subTotal + $diff;
                 $line->setSubTotal($newSubTotal);
             }
         }
+
         return $this;
     }
 
@@ -411,26 +436,27 @@ class ComplexCommand extends BaseCommand
     /**
      * @param int $amount
      * @param bool $withShipping
+     *
      * @return $this
      */
-    public function normalizeBySubTotal($amount, $withShipping  = false)
+    public function normalizeBySubTotal($amount, $withShipping = false)
     {
         $realAmount = $this->getAmount($withShipping);
         if ($withShipping === false) {
             $amount = $amount - $this->getSippingAmount();
         }
         if ($amount != $realAmount) {
-            $adjustment = $amount - $realAmount;
-            $coef = $adjustment / $realAmount;
-            $realAmount = 0;
+            $adjustment         = $amount - $realAmount;
+            $coef               = $adjustment / $realAmount;
+            $realAmount         = 0;
             $indexForAdjustment = 0;
-            $maxSubTotal = 0;
+            $maxSubTotal        = 0;
 
             foreach ($this->Lines as $index => $line) {
                 if ($line->isShipping() === true && $withShipping === false) {
                     continue;
                 }
-                $subTotal = $line->getSubTotal();
+                $subTotal    = $line->getSubTotal();
                 $newSubTotal = $subTotal + $subTotal * $coef;
                 $newSubTotal = round($newSubTotal, 0, PHP_ROUND_HALF_DOWN);
                 if ($newSubTotal <= 0) {
@@ -440,7 +466,7 @@ class ComplexCommand extends BaseCommand
                 $line->setSubTotal($newSubTotal);
                 $realAmount = $realAmount + $newSubTotal;
                 if ($line->getSubTotal() > $maxSubTotal) {
-                    $maxSubTotal = $line->getSubTotal();
+                    $maxSubTotal        = $line->getSubTotal();
                     $indexForAdjustment = $index;
                 }
             }
@@ -448,12 +474,13 @@ class ComplexCommand extends BaseCommand
             $diff = $amount - $realAmount;
 
             if (abs($diff) >= 1) {
-                $line = $this->Lines[$indexForAdjustment];
-                $subTotal = $line->getSubTotal();
+                $line        = $this->Lines[$indexForAdjustment];
+                $subTotal    = $line->getSubTotal();
                 $newSubTotal = $subTotal + $diff;
                 $line->setSubTotal($newSubTotal);
             }
         }
+
         return $this;
     }
 }

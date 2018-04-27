@@ -13,6 +13,7 @@ class ChekonlineLineException extends ChekonlineSDKException
 
     /**
      * ChekonlineLineException constructor.
+     *
      * @param string $message
      * @param \Chekonline\Cashbox\Line $receiptLine
      */

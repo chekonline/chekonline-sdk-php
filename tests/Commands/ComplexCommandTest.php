@@ -17,10 +17,10 @@ class ComplexCommandTest extends \PHPUnit_Framework_TestCase
         foreach ($lines as $line) {
             $line = new Line();
             $line->setSubTotal($line['subTotal'])
-                ->setDescription('test')
-                ->setTaxId(1)
-                ->setPayAttribute(1)
-                ->setQty($line['qty']);
+                 ->setDescription('test')
+                 ->setTaxId(1)
+                 ->setPayAttribute(1)
+                 ->setQty($line['qty']);
             $command->addLine($line);
         }
         $command->normalizeByQty($amount);
@@ -49,10 +49,10 @@ class ComplexCommandTest extends \PHPUnit_Framework_TestCase
             $line = new Line($isShipping);
 
             $line->setSubTotal($line['subTotal'])
-                ->setDescription('test')
-                ->setTaxId(1)
-                ->setPayAttribute(1)
-                ->setQty($line['qty']);
+                 ->setDescription('test')
+                 ->setTaxId(1)
+                 ->setPayAttribute(1)
+                 ->setQty($line['qty']);
             $command->addLine($line);
         }
         $command->normalizeBySubTotal($amount, $withShipping);

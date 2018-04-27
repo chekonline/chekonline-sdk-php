@@ -6,40 +6,42 @@ use Chekonline\Cashbox\Exceptions\ChekonlineCommandException;
 
 class NoOperationCommand extends BaseCommand
 {
-	const NAME = 'NoOperation';
+    const NAME = 'NoOperation';
 
-	/**
-	 * @var int|null
-	 */
-	private $Password;
+    /**
+     * @var int|null
+     */
+    private $Password;
 
-	public function getParams()
-	{
-		return get_object_vars($this);
-	}
+    public function getParams()
+    {
+        return get_object_vars($this);
+    }
 
-	/**
-	 * @param int $Password
-	 * @return NoOperationCommand
-	 */
-	public function setPassword($Password)
-	{
-		$this->Password = $Password;
-		return $this;
-	}
+    /**
+     * @param int $Password
+     *
+     * @return $this
+     */
+    public function setPassword($Password)
+    {
+        $this->Password = $Password;
 
-	/**
-	 * @return int
-	 */
-	public function getPassword()
-	{
-		return $this->Password;
-	}
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPassword()
+    {
+        return $this->Password;
+    }
 
     /**
      * {@inheritdoc}
      */
-	public function validate()
+    public function validate()
     {
         parent::validate();
         if (isset($this->Password) == false) {

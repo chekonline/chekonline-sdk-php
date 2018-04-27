@@ -9,209 +9,214 @@ class ChekonlineResponse
      */
     protected $request;
 
-	/**
-	 * @var int
-	 */
-	protected $httpStatusCode;
+    /**
+     * @var int
+     */
+    protected $httpStatusCode;
 
-	/**
-	 * @var string
-	 */
-	protected $httpError;
+    /**
+     * @var string
+     */
+    protected $httpError;
 
-	/**
-	 * @var array
-	 */
-	protected $headers;
+    /**
+     * @var array
+     */
+    protected $headers;
 
-	/**
-	 * @var array
-	 */
-	protected $body;
+    /**
+     * @var array
+     */
+    protected $body;
 
-	/**
-	 * @var string
-	 */
-	protected $endpoint;
+    /**
+     * @var string
+     */
+    protected $endpoint;
 
-	/**
-	 * @var int
-	 */
-	protected $apiErrorCode = 0;
+    /**
+     * @var int
+     */
+    protected $apiErrorCode = 0;
 
-	/**
-	 * @var string
-	 */
-	protected $apiErrorMessage = '';
+    /**
+     * @var string
+     */
+    protected $apiErrorMessage = '';
 
-	/**
-	 * @var \Chekonline\Cashbox\Exceptions\ChekonlineSDKException
-	 */
-	protected $thrownException;
+    /**
+     * @var \Chekonline\Cashbox\Exceptions\ChekonlineSDKException
+     */
+    protected $thrownException;
 
-	/**
-	 * ChekonlineResponse constructor.
-	 * @param ChekonlineRequest $request
-	 * @param array $result
-	 */
-	public function __construct($request, $result)
-	{
-	    $this->request = $request;
-		if ($result['httpError']) {
-			$this->setHttpError($result['httpError']);
-		} else {
-			$this->setHeaders($result['headers']);
-			$this->setBody($result['body']);
-			$this->setHttpStatusCode($result['httpStatusCode']);
-			if (isset($this->body['Response'])) {
-				if ($this->body['Response']['Error']) {
-					$this->setApiErrorCode($this->body['Response']['Error']);
-					if (isset($this->body['Response']['ErrorMessages'])) {
+    /**
+     * ChekonlineResponse constructor.
+     *
+     * @param ChekonlineRequest $request
+     * @param array $result
+     */
+    public function __construct($request, $result)
+    {
+        $this->request = $request;
+        if ($result['httpError']) {
+            $this->setHttpError($result['httpError']);
+        } else {
+            $this->setHeaders($result['headers']);
+            $this->setBody($result['body']);
+            $this->setHttpStatusCode($result['httpStatusCode']);
+            if (isset($this->body['Response'])) {
+                if ($this->body['Response']['Error']) {
+                    $this->setApiErrorCode($this->body['Response']['Error']);
+                    if (isset($this->body['Response']['ErrorMessages'])) {
                         $this->setApiErrorMessage($this->body['Response']['ErrorMessages']);
                     }
-				}
-			} elseif (isset($this->body['Responses'])){
-				if ($this->body['Error']) {
-					$this->setApiErrorCode($this->body['Response']['Error']);
-				}
-			} elseif (isset($this->body['FCEError'])) {
-				$this->setApiErrorCode($this->body['FCEError']);
-				if (isset($this->body['ErrorDescription'])) {
+                }
+            } elseif (isset($this->body['Responses'])) {
+                if ($this->body['Error']) {
+                    $this->setApiErrorCode($this->body['Response']['Error']);
+                }
+            } elseif (isset($this->body['FCEError'])) {
+                $this->setApiErrorCode($this->body['FCEError']);
+                if (isset($this->body['ErrorDescription'])) {
                     $this->setApiErrorMessage(array($this->body['ErrorDescription']));
                 }
-			}
-		}
-		$this->setEndpoint($this->request->getEndpoint());
-	}
+            }
+        }
+        $this->setEndpoint($this->request->getEndpoint());
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getHeaders()
-	{
-		return $this->headers;
-	}
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
 
-	/**
-	 * @param string $headers
-	 */
-	public function setHeaders($headers)
-	{
-		$headers = explode("\r\n", $headers);
+    /**
+     * @param string $headers
+     */
+    public function setHeaders($headers)
+    {
+        $headers      = explode("\r\n", $headers);
         $headersArray = array();
-		foreach ($headers as $header) {
-			if (!strpos($header, ":")) continue;
+        foreach ($headers as $header) {
+            if ( ! strpos($header, ":")) {
+                continue;
+            }
 
-			$header = explode(': ', $header);
-			$headersArray[$header[0]] = $header[1];
-		}
-		$this->headers = $headersArray;
-	}
+            $header                   = explode(': ', $header);
+            $headersArray[$header[0]] = $header[1];
+        }
+        $this->headers = $headersArray;
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getBody()
-	{
-		return $this->body;
-	}
+    /**
+     * @return array
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
 
-	/**
-	 * @param $bodyRaw
-	 */
-	public function setBody($bodyRaw)
-	{
-		$this->body = json_decode($bodyRaw, true);
-	}
+    /**
+     * @param $bodyRaw
+     */
+    public function setBody($bodyRaw)
+    {
+        $this->body = json_decode($bodyRaw, true);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getEndpoint()
-	{
-		return $this->endpoint;
-	}
+    /**
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
 
-	/**
-	 * @param string $endpoint
-	 */
-	public function setEndpoint($endpoint)
-	{
-		$this->endpoint = $endpoint;
-	}
+    /**
+     * @param string $endpoint
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->endpoint = $endpoint;
+    }
 
-	/**
-	 * @return int
-	 */
-	public function getHttpStatusCode()
-	{
-		return $this->httpStatusCode;
-	}
+    /**
+     * @return int
+     */
+    public function getHttpStatusCode()
+    {
+        return $this->httpStatusCode;
+    }
 
-	/**
-	 * @param int $httpStatusCode
-	 */
-	public function setHttpStatusCode($httpStatusCode)
-	{
-		$this->httpStatusCode = $httpStatusCode;
-	}
+    /**
+     * @param int $httpStatusCode
+     */
+    public function setHttpStatusCode($httpStatusCode)
+    {
+        $this->httpStatusCode = $httpStatusCode;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getApiErrorCode()
-	{
-		return $this->apiErrorCode;
-	}
+    /**
+     * @return int
+     */
+    public function getApiErrorCode()
+    {
+        return $this->apiErrorCode;
+    }
 
-	/**
-	 * @param int $apiErrorCode
-	 */
-	public function setApiErrorCode($apiErrorCode)
-	{
-		$this->apiErrorCode = $apiErrorCode;
-	}
+    /**
+     * @param int $apiErrorCode
+     */
+    public function setApiErrorCode($apiErrorCode)
+    {
+        $this->apiErrorCode = $apiErrorCode;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getApiErrorMessage()
-	{
-		return $this->apiErrorMessage;
-	}
+    /**
+     * @return string
+     */
+    public function getApiErrorMessage()
+    {
+        return $this->apiErrorMessage;
+    }
 
-	/**
-	 * @param array $apiErrorMessages
-	 */
-	public function setApiErrorMessage($apiErrorMessages)
-	{
-		$this->apiErrorMessage = join(', ', $apiErrorMessages);
-	}
+    /**
+     * @param array $apiErrorMessages
+     */
+    public function setApiErrorMessage($apiErrorMessages)
+    {
+        $this->apiErrorMessage = join(', ', $apiErrorMessages);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getHttpError()
-	{
-		return $this->httpError;
-	}
+    /**
+     * @return string
+     */
+    public function getHttpError()
+    {
+        return $this->httpError;
+    }
 
-	/**
-	 * @param string $httpError
-	 */
-	public function setHttpError($httpError)
-	{
-		$this->httpError = $httpError;
-	}
+    /**
+     * @param string $httpError
+     */
+    public function setHttpError($httpError)
+    {
+        $this->httpError = $httpError;
+    }
 
     /**
      * @param mixed $request
-     * @return ChekonlineResponse
+     *
+     * @return $this
      */
     public function setRequest($request)
     {
         $this->request = $request;
+
         return $this;
     }
 
@@ -230,18 +235,20 @@ class ChekonlineResponse
     public function __toString()
     {
         $properties = '';
-        $objVars =  get_object_vars($this);
+        $objVars    = get_object_vars($this);
         foreach ($objVars as $key => $value) {
             if ($value) {
                 $properties .= $this->getStingOfProperty($key, $value);
             }
         }
+
         return $properties;
     }
 
     /**
      * @param $key
      * @param $value
+     *
      * @return string
      */
     private function getStingOfProperty($key, $value)
@@ -253,8 +260,9 @@ class ChekonlineResponse
             foreach ($value as $lKey => $lValue) {
                 $properties .= "\t" . $this->getStingOfProperty($lKey, $lValue);
             }
+
             return $properties;
-        } elseif($key != 'request')  {
+        } elseif ($key != 'request') {
             return "{$key} : {$value}\n";
         }
     }

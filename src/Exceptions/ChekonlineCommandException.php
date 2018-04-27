@@ -13,6 +13,7 @@ class ChekonlineCommandException extends ChekonlineSDKException
 
     /**
      * ChekonlineLineException constructor.
+     *
      * @param string $message
      * @param \Chekonline\Cashbox\Commands\BaseCommand $command
      */

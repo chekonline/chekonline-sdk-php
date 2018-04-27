@@ -8,26 +8,26 @@ namespace Chekonline\Cashbox\HttpClients;
 
 interface HttpClientInterface
 {
-	/**
-	 * @param 			$certPath
-	 * @param 			$keyPath
-	 * @param 			$certPassword
-	 * @param            $url
-	 * @param            $method
-	 * @param array      $headers
-	 * @param array      $options
-	 * @param int        $timeOut
-	 *
-	 * @return mixed
-	 */
-	public function send(
-		$certPath,
-		$keyPath,
-		$certPassword,
-		$url,
-		$method,
-		$headers = array([]),
-		$options = array([]),
-		$timeOut = 60
-	);
+    /**
+     * @param string $certPath
+     * @param string $keyPath
+     * @param string $certPassword
+     * @param string $url
+     * @param string $method
+     * @param array $headers
+     * @param array $options
+     * @param int $timeOut
+     *
+     * @return mixed
+     */
+    public function send(
+        $certPath,
+        $keyPath,
+        $certPassword,
+        $url,
+        $method,
+        $headers = array([]),
+        $options = array([]),
+        $timeOut = 60
+    );
 }

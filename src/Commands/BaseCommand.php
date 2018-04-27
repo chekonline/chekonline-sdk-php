@@ -6,68 +6,73 @@ use Chekonline\Cashbox\Exceptions\ChekonlineCommandException;
 
 class BaseCommand implements CommandInterface
 {
-	/**
-	 * @var string
-	 */
-	protected $RequestId;
+    /**
+     * @var string
+     */
+    protected $RequestId;
 
-	/**
-	 * @var string
-	 */
-	protected $ClientId;
+    /**
+     * @var string
+     */
+    protected $ClientId = '';
 
-	/**
-	 * BaseCommand constructor.
-	 * @param $requestId
-	 */
-	public function __construct($requestId)
-	{
-		$this->setRequestId($requestId);
-	}
+    /**
+     * BaseCommand constructor.
+     *
+     * @param $requestId
+     */
+    public function __construct($requestId)
+    {
+        $this->setRequestId($requestId);
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getParams()
-	{
-		return get_object_vars($this);
-	}
+    /**
+     * @return array
+     */
+    public function getParams()
+    {
+        return get_object_vars($this);
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getRequestId()
-	{
-		return $this->RequestId;
-	}
+    /**
+     * @return mixed
+     */
+    public function getRequestId()
+    {
+        return $this->RequestId;
+    }
 
-	/**
-	 * @param mixed $requestId
+    /**
+     * @param mixed $requestId
+     *
      * @return $this
-	 */
-	public function setRequestId($requestId)
-	{
-		$this->RequestId = $requestId;
+     */
+    public function setRequestId($requestId)
+    {
+        $this->RequestId = $requestId;
+
         return $this;
-	}
+    }
 
-	/**
-	 * @return mixed
-	 */
-	public function getClientId()
-	{
-		return $this->ClientId;
-	}
+    /**
+     * @return mixed
+     */
+    public function getClientId()
+    {
+        return $this->ClientId;
+    }
 
-	/**
-	 * @param mixed $clientId
+    /**
+     * @param mixed $clientId
+     *
      * @return $this
-	 */
-	public function setClientId($clientId)
-	{
-		$this->ClientId = $clientId;
-		return $this;
-	}
+     */
+    public function setClientId($clientId)
+    {
+        $this->ClientId = $clientId;
+
+        return $this;
+    }
 
     /**
      * @throws \Chekonline\Cashbox\Exceptions\ChekonlineCommandException
