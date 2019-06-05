@@ -1,7 +1,7 @@
 {
     "name": "chekonline/chekonline-sdk-php",
     "description": "Chekonline",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "require": {
         "php": ">=5.4"
     },
