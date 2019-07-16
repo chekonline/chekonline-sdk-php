@@ -1,7 +1,16 @@
 {
     "name": "chekonline/chekonline-sdk-php",
     "description": "Chekonline",
-    "version": "1.0.0",
+    "type": "library",
+    "keywords": ["API", "chekonline", "fz54"],
+    "homepage": "https://www.chekonline.ru/",
+    "version": "1.0.1",
+    "authors": [
+      {
+        "name": "Vlad Alekseev",
+        "email": "alekseev@comepay.ru"
+      }
+    ],
     "require": {
         "php": ">=5.6"
     },

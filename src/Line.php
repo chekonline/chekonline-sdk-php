@@ -7,31 +7,44 @@ use Chekonline\Cashbox\Exceptions\ChekonlineLineException;
 class Line
 {
     /**
+     * Наименование товарной позиции.
+     *
      * @var string
      */
     protected $Description = '';
 
     /**
+     * Количество. Количество указывается в  тысячных долях, т.о если необходимо передать количество, например, 2,5
+     * килограмма то в параметре следует указать 2500 (2,5 · 1000 = 2500)
+     *
      * @var int
      */
     protected $Qty = 0;
 
     /**
+     * Цена. Цена указывается в копейках
+     *
      * @var int
      */
     protected $Price = 0;
 
     /**
+     * Признак способа расчёта
+     *
      * @var int
      */
     protected $PayAttribute;
 
     /**
+     * Код налога
+     *
      * @var int
      */
     protected $TaxId;
 
     /**
+     * Сумма товарной позиции
+     *
      * @var int
      */
     protected $SubTotal;
@@ -40,6 +53,13 @@ class Line
      * @var boolean
      */
     protected $isShipping = false;
+
+    /**
+     * Признак предмета расчёта
+     *
+     * @var int
+     */
+    protected $LineAttribute;
 
     /**
      * Line constructor.
@@ -219,6 +239,26 @@ class Line
     public function setSipping($isSipping = true)
     {
         $this->isShipping = $isSipping;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLineAttribute()
+    {
+        return $this->LineAttribute;
+    }
+
+    /**
+     * @param int $LineAttribute
+     *
+     * @return Line
+     */
+    public function setLineAttribute($LineAttribute)
+    {
+        $this->LineAttribute = intval($LineAttribute);
 
         return $this;
     }
