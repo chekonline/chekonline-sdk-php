@@ -1,2 +1,4 @@
 .idea/
 *.txt
+vendor/
+composer.lock

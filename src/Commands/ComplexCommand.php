@@ -21,7 +21,7 @@ class ComplexCommand extends BaseCommand
     /**
      * @var array
      */
-    private $NonCash = array([0, 0, 0]);
+    private $NonCash = [0, 0, 0];
 
     /**
      * @var int|null
